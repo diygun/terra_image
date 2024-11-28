@@ -122,27 +122,28 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Column(
-        children: [
-          Center(
-            child: Column(
-              children: [
-                const Text(
-                  'Terra image :',
-                ),
-                Text(
-                  '$_counter',
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                Text(
-                  'Date : $month - $year',
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                Text(_response),
-                Text('$imageUrls'),
-              ],
-            ),
-          ),
+      body:
+      // Column(
+      //   children: [
+      //     Center(
+      //       child: Column(
+      //         children: [
+      //           const Text(
+      //             'Terra image :',
+      //           ),
+      //           Text(
+      //             '$_counter',
+      //             style: Theme.of(context).textTheme.headlineMedium,
+      //           ),
+      //           Text(
+      //             'Date : $month - $year',
+      //             style: Theme.of(context).textTheme.headlineMedium,
+      //           ),
+      //           Text(_response),
+      //           Text('$imageUrls'),
+      //         ],
+      //       ),
+      //     ),
 
           Center(
             child: imageUrls.isEmpty
@@ -202,8 +203,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                   ),
           ),
-        ],
-      ),
+      //   ],
+      // ),
 
       // Center(
       //   child: Column(
