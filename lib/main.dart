@@ -90,7 +90,6 @@ class _MyHomePageState extends State<MyHomePage> {
           imageUrls.add(
               'https://epic.gsfc.nasa.gov/archive/enhanced/${year}/${intInTwoDigit(month)}/01/png/${imageTitle}.png');
           incrementDate();
-
         }
       }
     }).catchError((err) {
@@ -122,192 +121,99 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body:
-      // Column(
-      //   children: [
-      //     Center(
-      //       child: Column(
-      //         children: [
-      //           const Text(
-      //             'Terra image :',
-      //           ),
-      //           Text(
-      //             '$_counter',
-      //             style: Theme.of(context).textTheme.headlineMedium,
-      //           ),
-      //           Text(
-      //             'Date : $month - $year',
-      //             style: Theme.of(context).textTheme.headlineMedium,
-      //           ),
-      //           Text(_response),
-      //           Text('$imageUrls'),
-      //         ],
-      //       ),
-      //     ),
-
+      body: Column(
+        children: [
           Center(
-            child: imageUrls.isEmpty
-                ? Center(
-                    child: Text(
-                      "No images loaded yet. Click 'Load data' to fetch images.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  )
-                : ListView.builder(
-                    itemCount: imageUrls.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              imageTitles.isNotEmpty
-                                  ? imageTitles[index]
-                                  : "Image $index",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 5),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Image.network(
-                                imageUrls[index],
-                                fit: BoxFit.cover,
-                                loadingBuilder: (context, child, loadingProgress) {
-                                  if (loadingProgress == null) return child;
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      value: loadingProgress.expectedTotalBytes !=
-                                              null
-                                          ? loadingProgress.cumulativeBytesLoaded /
-                                              (loadingProgress.expectedTotalBytes ??
-                                                  1)
-                                          : null,
-                                    ),
-                                  );
-                                },
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Center(
-                                    child:
-                                        Icon(Icons.broken_image, color: Colors.red),
-                                  );
-                                },
-                              ),
-                            ),
-                            SizedBox(height: 10),
-                          ],
-                        ),
+            child: Column(
+              children: [
+                const Text(
+                  'Terra image :',
+                ),
+                Text(
+                  '$_counter',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                Text(
+                  'Date : $month - $year',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                ),
+                Text(_response),
+                Text('$imageUrls'),
+              ],
+            ),
+          ),
+          Row(
+            children: [
+              Expanded(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: imageUrls.isNotEmpty && imageUrls[0] != null
+                      ? Image.network(
+                    imageUrls[0],
+                    fit: BoxFit.fill,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(),
                       );
                     },
-                  ),
+                    errorBuilder: (context, error, stackTrace) {
+                      return Center(
+                        child: Icon(Icons.error, color: Colors.red),
+                      );
+                    },
+                  ): Center(),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: imageUrls.isNotEmpty && imageUrls[1] != null
+                      ? Image.network(
+                    imageUrls[1],
+                    fit: BoxFit.fill,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Center(
+                        child: Icon(Icons.error, color: Colors.red),
+                      );
+                    },
+                  ): Center(),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: imageUrls.isNotEmpty && imageUrls[2] != null
+                      ? Image.network(
+                    imageUrls[2],
+                    fit: BoxFit.fill,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Center(
+                        child: Icon(Icons.error, color: Colors.red),
+                      );
+                    },
+                  ): Center(),
+                ),
+              ),
+            ],
           ),
-      //   ],
-      // ),
-
-      // Center(
-      //   child: Column(
-      //     children: <Widget>[
-      //       const Text(
-      //         'Terra image :',
-      //       ),
-      //       Text(
-      //         '$_counter',
-      //         style: Theme.of(context).textTheme.headlineMedium,
-      //       ),
-      //       Text(
-      //         'Date : $month - $year',
-      //         style: Theme.of(context).textTheme.headlineMedium,
-      //       ),
-      //       Text(_response),
-      //       Text('$imageUrls'),
-      //
-      //
-      // Row(
-      //   children: [
-      //     Expanded(
-      //       flex: 1,
-      //       child: Padding(
-      //         padding: const EdgeInsets.all(5.0),
-      //         child: imageUrls.isNotEmpty && imageUrls[0] != null
-      //             ? Image.network(
-      //           imageUrls[0],
-      //           fit: BoxFit.fill,
-      //           loadingBuilder: (context, child, loadingProgress) {
-      //             if (loadingProgress == null) return child;
-      //             return Center(
-      //               child: CircularProgressIndicator(),
-      //             );
-      //           },
-      //           errorBuilder: (context, error, stackTrace) {
-      //             return Center(
-      //               child: Icon(Icons.error, color: Colors.red),
-      //             );
-      //           },
-      //         )
-      //             : Center(
-      //           child: Text("No image available"),
-      //         ),
-      //       ),
-      //     ),
-      //     Expanded(
-      //       flex: 1,
-      //       child: Padding(
-      //         padding: const EdgeInsets.all(5.0),
-      //         child: imageUrls.isNotEmpty && imageUrls[0] != null
-      //             ? Image.network(
-      //           imageUrls[1],
-      //           fit: BoxFit.fill,
-      //           loadingBuilder: (context, child, loadingProgress) {
-      //             if (loadingProgress == null) return child;
-      //             return Center(
-      //               child: CircularProgressIndicator(),
-      //             );
-      //           },
-      //           errorBuilder: (context, error, stackTrace) {
-      //             return Center(
-      //               child: Icon(Icons.error, color: Colors.red),
-      //             );
-      //           },
-      //         )
-      //             : Center(
-      //           child: Text("No image available"),
-      //         ),
-      //       ),
-      //     ),
-      //     Expanded(
-      //       flex: 1,
-      //       child: Padding(
-      //         padding: const EdgeInsets.all(5.0),
-      //         child: imageUrls.isNotEmpty && imageUrls[0] != null
-      //             ? Image.network(
-      //           imageUrls[0],
-      //           fit: BoxFit.fill,
-      //           loadingBuilder: (context, child, loadingProgress) {
-      //             if (loadingProgress == null) return child;
-      //             return Center(
-      //               child: CircularProgressIndicator(),
-      //             );
-      //           },
-      //           errorBuilder: (context, error, stackTrace) {
-      //             return Center(
-      //               child: Icon(Icons.error, color: Colors.red),
-      //             );
-      //           },
-      //         )
-      //             : Center(
-      //           child: Text("No image available"),
-      //         ),
-      //       ),
-      //     ),
-      //   ],
-      // ),
-      //
-      //
-      //   ],
-      // ),
-      // ),
+        ],
+      ),
 
       floatingActionButton: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
