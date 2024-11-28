@@ -69,9 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void fetchData() {
     String dataUrl =
         'https://epic.gsfc.nasa.gov/api/enhanced/date/${year}-${intInTwoDigit(month)}-01';
-
     print(dataUrl);
-
     // enable to while - disabled for testing
     print(imageUrls.length);
     http.get(Uri.parse(dataUrl)).then((resp) {
@@ -83,13 +81,13 @@ class _MyHomePageState extends State<MyHomePage> {
         if (data.isNotEmpty) {
           var random = Random();
 
-          print(
-              'Random img of 01/$month/$year ${data[random.nextInt(data.length)]['image']}');
-          String imageTitle = data[0]['image'];
+          print('Random img of 01/$month/$year ${data[random.nextInt(data.length)]['image']}');
+          String imageTitle = data[random.nextInt(data.length)]['image'];
           imageTitles.add(imageTitle);
           imageUrls.add(
               'https://epic.gsfc.nasa.gov/archive/enhanced/${year}/${intInTwoDigit(month)}/01/png/${imageTitle}.png');
           incrementDate();
+          print('added');
         }
       }
     }).catchError((err) {
@@ -138,80 +136,39 @@ class _MyHomePageState extends State<MyHomePage> {
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
                 Text(_response),
-                Text('$imageUrls'),
+                Text('${imageUrls.length}'),
               ],
             ),
           ),
-          Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: imageUrls.isNotEmpty && imageUrls[0] != null
-                      ? Image.network(
-                    imageUrls[0],
-                    fit: BoxFit.fill,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    },
-                    errorBuilder: (context, error, stackTrace) {
-                      return Center(
-                        child: Icon(Icons.error, color: Colors.red),
-                      );
-                    },
-                  ): Center(),
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: imageUrls.isNotEmpty && imageUrls[1] != null
-                      ? Image.network(
-                    imageUrls[1],
-                    fit: BoxFit.fill,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    },
-                    errorBuilder: (context, error, stackTrace) {
-                      return Center(
-                        child: Icon(Icons.error, color: Colors.red),
-                      );
-                    },
-                  ): Center(),
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: imageUrls.isNotEmpty && imageUrls[2] != null
-                      ? Image.network(
-                    imageUrls[2],
-                    fit: BoxFit.fill,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    },
-                    errorBuilder: (context, error, stackTrace) {
-                      return Center(
-                        child: Icon(Icons.error, color: Colors.red),
-                      );
-                    },
-                  ): Center(),
-                ),
-              ),
-            ],
+          // chat gpt :
+          GridView.builder(
+            shrinkWrap: true, // Permet de s'adapter à l'espace disponible
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3, // Nombre d'éléments par ligne
+              crossAxisSpacing: 8.0, // Espacement horizontal
+              mainAxisSpacing: 8.0, // Espacement vertical
+            ),
+            itemCount: imageUrls.length, // Nombre total d'éléments dans la grille
+            itemBuilder: (context, index) {
+              if (imageUrls[index] != null && imageUrls[index].isNotEmpty) {
+                return Image.network(
+                  imageUrls[index],
+                  fit: BoxFit.cover, // Ajuste l'image pour qu'elle remplisse le conteneur
+                  errorBuilder: (context, error, stackTrace) {
+                    return const Icon(Icons.broken_image); // Si l'image ne se charge pas
+                  },
+                );
+              } else {
+                return Container(
+                  color: Colors.grey.shade300, // Couleur de fond du conteneur vide
+                  child: const Center(
+                    child: Text("En attente"),
+                  ),
+                );
+              }
+            },
           ),
+
         ],
       ),
 
