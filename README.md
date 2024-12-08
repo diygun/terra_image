@@ -1,6 +1,6 @@
 # terra_image
 
-A new Flutter project.
+Flutter application to vizualize NASA's EPIC earth images.  
 
 ## Getting Started
 
